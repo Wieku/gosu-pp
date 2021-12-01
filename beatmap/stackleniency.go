@@ -1,8 +1,8 @@
 package beatmap
 
 import (
-	difficulty2 "github.com/wieku/gosu-pp/beatmap/difficulty"
-	objects2 "github.com/wieku/gosu-pp/beatmap/objects"
+	"github.com/wieku/gosu-pp/beatmap/difficulty"
+	"github.com/wieku/gosu-pp/beatmap/objects"
 	"math"
 )
 
@@ -10,30 +10,30 @@ import (
 
 const stackDistance = 3.0
 
-func isSpinner(obj objects2.IHitObject) bool {
-	_, ok2 := obj.(*objects2.Spinner)
+func isSpinner(obj objects.IHitObject) bool {
+	_, ok2 := obj.(*objects.Spinner)
 	return ok2
 }
 
-func isSlider(obj objects2.IHitObject) bool {
-	_, ok1 := obj.(*objects2.Slider)
+func isSlider(obj objects.IHitObject) bool {
+	_, ok1 := obj.(*objects.Slider)
 	return ok1
 }
 
 func calculateStackLeniency(b *BeatMap) {
-	diffNM := difficulty2.NewDifficulty(b.Diff.GetHPDrain(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
-	diffEZ := difficulty2.NewDifficulty(b.Diff.GetHPDrain(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
-	diffHR := difficulty2.NewDifficulty(b.Diff.GetHPDrain(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
+	diffNM := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
+	diffEZ := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
+	diffHR := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
 
-	diffEZ.SetMods(difficulty2.Easy)
-	diffHR.SetMods(difficulty2.HardRock)
+	diffEZ.SetMods(difficulty.Easy)
+	diffHR.SetMods(difficulty.HardRock)
 
 	processStacking(b.HitObjects, b.FileVersion, diffNM, b.StackLeniency)
 	processStacking(b.HitObjects, b.FileVersion, diffEZ, b.StackLeniency)
 	processStacking(b.HitObjects, b.FileVersion, diffHR, b.StackLeniency)
 }
 
-func processStacking(hitObjects []objects2.IHitObject, version int, diff *difficulty2.Difficulty, stackLeniency float64) {
+func processStacking(hitObjects []objects.IHitObject, version int, diff *difficulty.Difficulty, stackLeniency float64) {
 	stackThreshold := math.Floor(diff.Preempt * stackLeniency)
 	modifiers := diff.Mods
 
@@ -49,16 +49,16 @@ func processStacking(hitObjects []objects2.IHitObject, version int, diff *diffic
 
 	for _, v := range hitObjects {
 		if isSpinner(v) {
-			v.SetStackIndex(0, difficulty2.None)
-			v.SetStackIndex(0, difficulty2.Easy)
-			v.SetStackIndex(0, difficulty2.HardRock)
+			v.SetStackIndex(0, difficulty.None)
+			v.SetStackIndex(0, difficulty.Easy)
+			v.SetStackIndex(0, difficulty.HardRock)
 		} else {
 			v.SetStackOffset(-float32(v.GetStackIndex(modifiers))*float32(diff.CircleRadius)/10, modifiers)
 		}
 	}
 }
 
-func applyNewStacking(hitObjects []objects2.IHitObject, modifiers difficulty2.Modifier, stackThreshold float64) {
+func applyNewStacking(hitObjects []objects.IHitObject, modifiers difficulty.Modifier, stackThreshold float64) {
 	extendedEndIndex := len(hitObjects) - 1
 	for i := len(hitObjects) - 1; i >= 0; i-- {
 		stackBaseIndex := i
@@ -161,7 +161,7 @@ func applyNewStacking(hitObjects []objects2.IHitObject, modifiers difficulty2.Mo
 	}
 }
 
-func applyOldStacking(hitObjects []objects2.IHitObject, modifiers difficulty2.Modifier, stackThreshold float64) {
+func applyOldStacking(hitObjects []objects.IHitObject, modifiers difficulty.Modifier, stackThreshold float64) {
 	for i := 0; i < len(hitObjects); i++ {
 		objectI := hitObjects[i]
 
