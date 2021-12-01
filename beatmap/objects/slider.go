@@ -1,6 +1,7 @@
 package objects
 
 import (
+	"github.com/wieku/gosu-pp/beatmap/audio"
 	"github.com/wieku/gosu-pp/beatmap/difficulty"
 	"github.com/wieku/gosu-pp/beatmap/timing"
 	"github.com/wieku/gosu-pp/math/curves"
@@ -59,6 +60,22 @@ func NewSlider(data []string) *Slider {
 
 	slider.EndTime = slider.StartTime
 	slider.EndPosRaw = slider.multiCurve.PointAt(1.0)
+
+	baseSample := slider.sounds[0]
+
+	slider.sounds = make([]audio.HitSound, slider.RepeatCount+1)
+
+	for i := range slider.sounds {
+		slider.sounds[i] = baseSample
+	}
+
+	if len(data) > 8 {
+		subData := strings.Split(data[8], "|")
+		for i, v := range subData {
+			sound, _ := strconv.Atoi(v)
+			slider.sounds[i] = audio.HitSound(sound)
+		}
+	}
 
 	return slider
 }

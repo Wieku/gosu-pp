@@ -1,6 +1,7 @@
 package objects
 
 import (
+	"github.com/wieku/gosu-pp/beatmap/audio"
 	difficulty2 "github.com/wieku/gosu-pp/beatmap/difficulty"
 	"github.com/wieku/gosu-pp/beatmap/timing"
 	"github.com/wieku/gosu-pp/math/vector"
@@ -39,6 +40,8 @@ type IHitObject interface {
 	SetStackIndex(index int, modifier difficulty2.Modifier)
 	SetStackOffset(offset float32, modifier difficulty2.Modifier)
 
+	GetSounds() []audio.HitSound
+
 	GetColorOffset() int
 	IsNewCombo() bool
 	SetNewCombo(b bool)
@@ -64,6 +67,8 @@ type HitObject struct {
 	StackIndexHR int
 
 	HitObjectID int
+
+	sounds []audio.HitSound
 
 	NewCombo    bool
 	ComboNumber int
@@ -191,6 +196,10 @@ func (hitObject *HitObject) SetStackOffset(offset float32, modifier difficulty2.
 	default:
 		hitObject.StackOffset = vector.NewVec2f(1, 1).Scl(offset)
 	}
+}
+
+func (hitObject *HitObject) GetSounds() []audio.HitSound {
+	return hitObject.sounds
 }
 
 func (hitObject *HitObject) GetColorOffset() int {

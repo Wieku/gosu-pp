@@ -1,6 +1,7 @@
 package objects
 
 import (
+	"github.com/wieku/gosu-pp/beatmap/audio"
 	"github.com/wieku/gosu-pp/math/vector"
 	"strconv"
 )
@@ -13,6 +14,8 @@ func commonParse(data []string) *HitObject {
 
 	startPos := vector.NewVec2f(float32(x), float32(y))
 
+	sound, _ := strconv.Atoi(data[4])
+
 	hitObject := &HitObject{
 		StartPosRaw: startPos,
 		EndPosRaw:   startPos,
@@ -21,6 +24,7 @@ func commonParse(data []string) *HitObject {
 		HitObjectID: -1,
 		NewCombo:    (Type(objType) & NEWCOMBO) == NEWCOMBO,
 		ColorOffset: (objType >> 4) & 7,
+		sounds:      []audio.HitSound{audio.HitSound(sound)},
 	}
 
 	return hitObject
