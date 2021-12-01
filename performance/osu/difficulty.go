@@ -114,6 +114,32 @@ func getStars(aim *skills.AimSkill, aimNoSliders *skills.AimSkill, speed *skills
 	)
 }
 
+// Retrieves peaks from skills
+func getPeaks(aim *skills.AimSkill, speed *skills.SpeedSkill, flashlight *skills.Flashlight, diff *difficulty.Difficulty) StrainPeaks {
+	peaks := StrainPeaks{
+		Aim:   aim.GetCurrentStrainPeaks(),
+		Speed: speed.GetCurrentStrainPeaks(),
+	}
+
+	if flashlight != nil {
+		peaks.Flashlight = flashlight.GetCurrentStrainPeaks()
+	}
+
+	peaks.Total = make([]float64, len(peaks.Aim))
+
+	for i := 0; i < len(peaks.Aim); i++ {
+		flVal := 0.0
+		if flashlight != nil {
+			flVal = peaks.Flashlight[i]
+		}
+
+		stars := getStarsFromRawValues(peaks.Aim[i], peaks.Aim[i], peaks.Speed[i], flVal, diff, Attributes{})
+		peaks.Total[i] = stars.Total
+	}
+
+	return peaks
+}
+
 func addObjectToAttribs(o objects.IHitObject, attr *Attributes) {
 	if s, ok := o.(*objects.Slider); ok {
 		attr.Sliders++
@@ -215,26 +241,5 @@ func CalculateStrainPeaks(objects []objects.IHitObject, diff *difficulty.Difficu
 		}
 	}
 
-	peaks := StrainPeaks{
-		Aim:   aimSkill.GetCurrentStrainPeaks(),
-		Speed: speedSkill.GetCurrentStrainPeaks(),
-	}
-
-	if flashlightSkill != nil {
-		peaks.Flashlight = flashlightSkill.GetCurrentStrainPeaks()
-	}
-
-	peaks.Total = make([]float64, len(peaks.Aim))
-
-	for i := 0; i < len(peaks.Aim); i++ {
-		flVal := 0.0
-		if flashlightSkill != nil {
-			flVal = peaks.Flashlight[i]
-		}
-
-		stars := getStarsFromRawValues(peaks.Aim[i], peaks.Aim[i], peaks.Speed[i], flVal, diff, Attributes{})
-		peaks.Total[i] = stars.Total
-	}
-
-	return peaks
+	return getPeaks(aimSkill, speedSkill, flashlightSkill, diff)
 }
