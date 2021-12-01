@@ -101,7 +101,6 @@ func (slider *Slider) SetTiming(timings *timing.Timings) {
 		tickDistance = slider.pixelLength
 	}
 
-	// Lazer like score point calculations. Clean AF, but not unreliable enough for stable's replay processing. Would need more testing.
 	for span := 0; span < int(slider.RepeatCount); span++ {
 		spanStartTime := slider.StartTime + float64(span)*slider.spanDuration
 		reversed := span%2 == 1
