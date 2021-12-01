@@ -1,7 +1,7 @@
 package curves
 
 import (
-	"github.com/wieku/gosu-pp/math/vector"
+	"github.com/Wieku/gosu-pp/math/vector"
 )
 
 func ApproximateCircularArc(pt1, pt2, pt3 vector.Vector2f, detail float32) []Linear {

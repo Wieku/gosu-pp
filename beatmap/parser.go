@@ -3,9 +3,9 @@ package beatmap
 import (
 	"bytes"
 	"errors"
-	"github.com/wieku/gosu-pp/beatmap/objects"
-	"github.com/wieku/gosu-pp/files"
-	"github.com/wieku/gosu-pp/math/mutils"
+	"github.com/Wieku/gosu-pp/beatmap/objects"
+	"github.com/Wieku/gosu-pp/files"
+	"github.com/Wieku/gosu-pp/math/mutils"
 	"io"
 	"math"
 	"sort"

@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/wieku/gosu-pp/beatmap"
+	"github.com/Wieku/gosu-pp/beatmap"
 	"os"
 	"testing"
 )

@@ -1,9 +1,9 @@
 package skills
 
 import (
-	"github.com/wieku/gosu-pp/beatmap/difficulty"
-	"github.com/wieku/gosu-pp/math/mutils"
-	"github.com/wieku/gosu-pp/performance/osu/preprocessing"
+	"github.com/Wieku/gosu-pp/beatmap/difficulty"
+	"github.com/Wieku/gosu-pp/math/mutils"
+	"github.com/Wieku/gosu-pp/performance/osu/preprocessing"
 	"math"
 	"sort"
 )

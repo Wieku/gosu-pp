@@ -1,8 +1,8 @@
 package preprocessing
 
 import (
-	"github.com/wieku/gosu-pp/beatmap/difficulty"
-	"github.com/wieku/gosu-pp/beatmap/objects"
+	"github.com/Wieku/gosu-pp/beatmap/difficulty"
+	"github.com/Wieku/gosu-pp/beatmap/objects"
 )
 
 // CreateDifficultyObjects creates difficulty objects needed for star rating calculations

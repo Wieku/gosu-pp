@@ -1,8 +1,8 @@
 package beatmap
 
 import (
-	"github.com/wieku/gosu-pp/beatmap/difficulty"
-	"github.com/wieku/gosu-pp/beatmap/objects"
+	"github.com/Wieku/gosu-pp/beatmap/difficulty"
+	"github.com/Wieku/gosu-pp/beatmap/objects"
 	"math"
 )
 

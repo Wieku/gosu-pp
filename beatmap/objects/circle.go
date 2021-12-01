@@ -1,7 +1,7 @@
 package objects
 
 import (
-	"github.com/wieku/gosu-pp/beatmap/difficulty"
+	"github.com/Wieku/gosu-pp/beatmap/difficulty"
 )
 
 type Circle struct {

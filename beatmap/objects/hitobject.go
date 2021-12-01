@@ -1,16 +1,16 @@
 package objects
 
 import (
-	"github.com/wieku/gosu-pp/beatmap/audio"
-	difficulty2 "github.com/wieku/gosu-pp/beatmap/difficulty"
-	"github.com/wieku/gosu-pp/beatmap/timing"
-	"github.com/wieku/gosu-pp/math/vector"
+	"github.com/Wieku/gosu-pp/beatmap/audio"
+	"github.com/Wieku/gosu-pp/beatmap/difficulty"
+	"github.com/Wieku/gosu-pp/beatmap/timing"
+	"github.com/Wieku/gosu-pp/math/vector"
 )
 
 type IHitObject interface {
 	Update(time float64) bool
 	SetTiming(timings *timing.Timings)
-	SetDifficulty(difficulty *difficulty2.Difficulty)
+	SetDifficulty(difficulty *difficulty.Difficulty)
 
 	GetStartTime() float64
 	GetEndTime() float64
@@ -18,15 +18,15 @@ type IHitObject interface {
 
 	GetPositionAt(float64) vector.Vector2f
 	GetStackedPositionAt(float64) vector.Vector2f
-	GetStackedPositionAtMod(time float64, modifier difficulty2.Modifier) vector.Vector2f
+	GetStackedPositionAtMod(time float64, modifier difficulty.Modifier) vector.Vector2f
 
 	GetStartPosition() vector.Vector2f
 	GetStackedStartPosition() vector.Vector2f
-	GetStackedStartPositionMod(modifier difficulty2.Modifier) vector.Vector2f
+	GetStackedStartPositionMod(modifier difficulty.Modifier) vector.Vector2f
 
 	GetEndPosition() vector.Vector2f
 	GetStackedEndPosition() vector.Vector2f
-	GetStackedEndPositionMod(modifier difficulty2.Modifier) vector.Vector2f
+	GetStackedEndPositionMod(modifier difficulty.Modifier) vector.Vector2f
 
 	GetID() int
 	SetID(int)
@@ -36,9 +36,9 @@ type IHitObject interface {
 	GetComboSetHax() int
 	SetComboSetHax(set int)
 
-	GetStackIndex(modifier difficulty2.Modifier) int
-	SetStackIndex(index int, modifier difficulty2.Modifier)
-	SetStackOffset(offset float32, modifier difficulty2.Modifier)
+	GetStackIndex(modifier difficulty.Modifier) int
+	SetStackIndex(index int, modifier difficulty.Modifier)
+	SetStackOffset(offset float32, modifier difficulty.Modifier)
 
 	GetSounds() []audio.HitSound
 
@@ -83,7 +83,7 @@ func (hitObject *HitObject) SetTiming(_ *timing.Timings) {}
 
 func (hitObject *HitObject) UpdateStacking() {}
 
-func (hitObject *HitObject) SetDifficulty(_ *difficulty2.Difficulty) {}
+func (hitObject *HitObject) SetDifficulty(_ *difficulty.Difficulty) {}
 
 func (hitObject *HitObject) GetStartTime() float64 {
 	return hitObject.StartTime
@@ -109,7 +109,7 @@ func (hitObject *HitObject) GetStackedPositionAt(time float64) vector.Vector2f {
 	return hitObject.GetPositionAt(time).Add(hitObject.StackOffset)
 }
 
-func (hitObject *HitObject) GetStackedPositionAtMod(time float64, modifier difficulty2.Modifier) vector.Vector2f {
+func (hitObject *HitObject) GetStackedPositionAtMod(time float64, modifier difficulty.Modifier) vector.Vector2f {
 	return hitObject.modifyPosition(hitObject.GetPositionAt(time), modifier)
 }
 
@@ -121,7 +121,7 @@ func (hitObject *HitObject) GetStackedStartPosition() vector.Vector2f {
 	return hitObject.GetStartPosition().Add(hitObject.StackOffset)
 }
 
-func (hitObject *HitObject) GetStackedStartPositionMod(modifier difficulty2.Modifier) vector.Vector2f {
+func (hitObject *HitObject) GetStackedStartPositionMod(modifier difficulty.Modifier) vector.Vector2f {
 	return hitObject.modifyPosition(hitObject.GetStartPosition(), modifier)
 }
 
@@ -133,7 +133,7 @@ func (hitObject *HitObject) GetStackedEndPosition() vector.Vector2f {
 	return hitObject.GetEndPosition().Add(hitObject.StackOffset)
 }
 
-func (hitObject *HitObject) GetStackedEndPositionMod(modifier difficulty2.Modifier) vector.Vector2f {
+func (hitObject *HitObject) GetStackedEndPositionMod(modifier difficulty.Modifier) vector.Vector2f {
 	return hitObject.modifyPosition(hitObject.GetEndPosition(), modifier)
 }
 
@@ -165,33 +165,33 @@ func (hitObject *HitObject) SetComboSetHax(set int) {
 	hitObject.ComboSetHax = set
 }
 
-func (hitObject *HitObject) GetStackIndex(modifier difficulty2.Modifier) int {
+func (hitObject *HitObject) GetStackIndex(modifier difficulty.Modifier) int {
 	switch {
-	case modifier&difficulty2.HardRock > 0:
+	case modifier&difficulty.HardRock > 0:
 		return hitObject.StackIndexHR
-	case modifier&difficulty2.Easy > 0:
+	case modifier&difficulty.Easy > 0:
 		return hitObject.StackIndexEZ
 	default:
 		return hitObject.StackIndex
 	}
 }
 
-func (hitObject *HitObject) SetStackIndex(index int, modifier difficulty2.Modifier) {
+func (hitObject *HitObject) SetStackIndex(index int, modifier difficulty.Modifier) {
 	switch {
-	case modifier&difficulty2.HardRock > 0:
+	case modifier&difficulty.HardRock > 0:
 		hitObject.StackIndexHR = index
-	case modifier&difficulty2.Easy > 0:
+	case modifier&difficulty.Easy > 0:
 		hitObject.StackIndexEZ = index
 	default:
 		hitObject.StackIndex = index
 	}
 }
 
-func (hitObject *HitObject) SetStackOffset(offset float32, modifier difficulty2.Modifier) {
+func (hitObject *HitObject) SetStackOffset(offset float32, modifier difficulty.Modifier) {
 	switch {
-	case modifier&difficulty2.HardRock > 0:
+	case modifier&difficulty.HardRock > 0:
 		hitObject.StackOffsetHR = vector.NewVec2f(1, 1).Scl(offset)
-	case modifier&difficulty2.Easy > 0:
+	case modifier&difficulty.Easy > 0:
 		hitObject.StackOffsetEZ = vector.NewVec2f(1, 1).Scl(offset)
 	default:
 		hitObject.StackOffset = vector.NewVec2f(1, 1).Scl(offset)
@@ -214,12 +214,12 @@ func (hitObject *HitObject) SetNewCombo(b bool) {
 	hitObject.NewCombo = b
 }
 
-func (hitObject *HitObject) modifyPosition(basePosition vector.Vector2f, modifier difficulty2.Modifier) vector.Vector2f {
+func (hitObject *HitObject) modifyPosition(basePosition vector.Vector2f, modifier difficulty.Modifier) vector.Vector2f {
 	switch {
-	case modifier&difficulty2.HardRock > 0:
+	case modifier&difficulty.HardRock > 0:
 		basePosition.Y = 384 - basePosition.Y
 		return basePosition.Add(hitObject.StackOffsetHR)
-	case modifier&difficulty2.Easy > 0:
+	case modifier&difficulty.Easy > 0:
 		return basePosition.Add(hitObject.StackOffsetEZ)
 	}
 

@@ -1,7 +1,7 @@
 package timing
 
 import (
-	"github.com/wieku/gosu-pp/math/mutils"
+	"github.com/Wieku/gosu-pp/math/mutils"
 	"math"
 	"sort"
 )

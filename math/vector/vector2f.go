@@ -2,7 +2,7 @@ package vector
 
 import (
 	"fmt"
-	"github.com/wieku/gosu-pp/math/math32"
+	"github.com/Wieku/gosu-pp/math/math32"
 )
 
 const epsilon = 0.00001
