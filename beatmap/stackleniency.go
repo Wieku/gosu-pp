@@ -21,9 +21,9 @@ func isSlider(obj objects.IHitObject) bool {
 }
 
 func calculateStackLeniency(b *BeatMap) {
-	diffNM := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
-	diffEZ := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
-	diffHR := difficulty.NewDifficulty(b.Diff.GetHP(), b.Diff.GetCS(), b.Diff.GetOD(), b.Diff.GetAR())
+	diffNM := difficulty.NewDifficulty(b.Difficulty.GetHP(), b.Difficulty.GetCS(), b.Difficulty.GetOD(), b.Difficulty.GetAR())
+	diffEZ := difficulty.NewDifficulty(b.Difficulty.GetHP(), b.Difficulty.GetCS(), b.Difficulty.GetOD(), b.Difficulty.GetAR())
+	diffHR := difficulty.NewDifficulty(b.Difficulty.GetHP(), b.Difficulty.GetCS(), b.Difficulty.GetOD(), b.Difficulty.GetAR())
 
 	diffEZ.SetMods(difficulty.Easy)
 	diffHR.SetMods(difficulty.HardRock)

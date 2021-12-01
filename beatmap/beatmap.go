@@ -31,7 +31,7 @@ type BeatMap struct {
 	SliderMultiplier float64
 	StackLeniency    float64
 
-	Diff *difficulty.Difficulty
+	Difficulty *difficulty.Difficulty
 
 	Audio string
 	Bg    string
@@ -57,16 +57,14 @@ type BeatMap struct {
 }
 
 func NewBeatMap() *BeatMap {
-	beatMap := &BeatMap{
+	return &BeatMap{
 		Timings:       timing.NewTimings(),
 		StackLeniency: 0.7,
-		Diff:          difficulty.NewDifficulty(5, 5, 5, 5),
+		Difficulty:    difficulty.NewDifficulty(5, 5, 5, 5),
 
 		MinBPM: math.Inf(0),
 		MaxBPM: 0,
 	}
-	//beatMap.Diff.SetMods(difficulty.HardRock|difficulty.Hidden)
-	return beatMap
 }
 
 func (beatMap *BeatMap) ParsePoint(point string) {

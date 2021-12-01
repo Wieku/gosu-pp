@@ -21,7 +21,7 @@ func TestOsuSR(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Diff)
+	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Difficulty)
 
 	AssertFloat("Aim", 4.633597654263426, stars.Aim, 0.0001, t)
 	AssertFloat("Speed", 2.812916095444383, stars.Speed, 0.0001, t)
@@ -39,10 +39,10 @@ func TestOsuPP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Diff)
+	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Difficulty)
 
 	pp := &osu.PPv2{}
-	pp.PPv2x(stars, -1, -1, 0, 0, 0, beatMap.Diff)
+	pp.PPv2x(stars, -1, -1, 0, 0, 0, beatMap.Difficulty)
 
 	AssertFloat("Aim", 170.74687153986574, pp.Results.Aim, 0.0001, t)
 	AssertFloat("Speed", 173.08993579731623, pp.Results.Speed, 0.0001, t)
@@ -61,12 +61,12 @@ func TestOsuPPDT(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap.Diff.SetMods(difficulty.DoubleTime)
+	beatMap.Difficulty.SetMods(difficulty.DoubleTime)
 
-	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Diff)
+	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Difficulty)
 
 	pp := &osu.PPv2{}
-	pp.PPv2x(stars, stars.MaxCombo, stars.ObjectCount, 0, 0, 0, beatMap.Diff)
+	pp.PPv2x(stars, stars.MaxCombo, stars.ObjectCount, 0, 0, 0, beatMap.Difficulty)
 
 	AssertFloat("Aim", 569.94426438669574964, pp.Results.Aim, 0.0001, t)
 	AssertFloat("Speed", 875.1324756257907, pp.Results.Speed, 0.0001, t)
@@ -85,12 +85,12 @@ func TestOsuPPHR(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap.Diff.SetMods(difficulty.HardRock)
+	beatMap.Difficulty.SetMods(difficulty.HardRock)
 
-	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Diff)
+	stars := osu.CalculateSingle(beatMap.HitObjects, beatMap.Difficulty)
 
 	pp := &osu.PPv2{}
-	pp.PPv2x(stars, stars.MaxCombo, stars.ObjectCount, 0, 0, 0, beatMap.Diff)
+	pp.PPv2x(stars, stars.MaxCombo, stars.ObjectCount, 0, 0, 0, beatMap.Difficulty)
 
 	AssertFloat("Aim", 219.08610212044914, pp.Results.Aim, 0.0001, t)
 	AssertFloat("Speed", 195.3061931864951, pp.Results.Speed, 0.0001, t)
@@ -110,7 +110,7 @@ func BenchmarkOsuSRSingle(b *testing.B) {
 	}
 
 	for n := 0; n < b.N; n++ {
-		osu.CalculateSingle(beatMap.HitObjects, beatMap.Diff)
+		osu.CalculateSingle(beatMap.HitObjects, beatMap.Difficulty)
 	}
 }
 
@@ -126,6 +126,6 @@ func BenchmarkOsuSRStep(b *testing.B) {
 	}
 
 	for n := 0; n < b.N; n++ {
-		osu.CalculateStep(beatMap.HitObjects, beatMap.Diff)
+		osu.CalculateStep(beatMap.HitObjects, beatMap.Difficulty)
 	}
 }

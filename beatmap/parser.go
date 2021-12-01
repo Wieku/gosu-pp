@@ -75,22 +75,22 @@ func parseDifficulty(line []string, beatMap *BeatMap) {
 		beatMap.Timings.SliderMult = beatMap.SliderMultiplier
 	case "ApproachRate":
 		parsed, _ := strconv.ParseFloat(line[1], 64)
-		beatMap.Diff.SetAR(mutils.ClampF64(parsed, 0, 10))
+		beatMap.Difficulty.SetAR(mutils.ClampF64(parsed, 0, 10))
 		beatMap.arSpecified = true
 	case "CircleSize":
 		parsed, _ := strconv.ParseFloat(line[1], 64)
-		beatMap.Diff.SetCS(mutils.ClampF64(parsed, 0, 10))
+		beatMap.Difficulty.SetCS(mutils.ClampF64(parsed, 0, 10))
 	case "SliderTickRate":
 		beatMap.Timings.TickRate, _ = strconv.ParseFloat(line[1], 64)
 	case "HPDrainRate":
 		parsed, _ := strconv.ParseFloat(line[1], 64)
-		beatMap.Diff.SetHP(mutils.ClampF64(parsed, 0, 10))
+		beatMap.Difficulty.SetHP(mutils.ClampF64(parsed, 0, 10))
 	case "OverallDifficulty":
 		parsed, _ := strconv.ParseFloat(line[1], 64)
-		beatMap.Diff.SetOD(mutils.ClampF64(parsed, 0, 10))
+		beatMap.Difficulty.SetOD(mutils.ClampF64(parsed, 0, 10))
 
 		if !beatMap.arSpecified {
-			beatMap.Diff.SetAR(beatMap.Diff.GetOD())
+			beatMap.Difficulty.SetAR(beatMap.Difficulty.GetOD())
 		}
 	}
 }
