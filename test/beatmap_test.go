@@ -12,7 +12,7 @@ func TestMetadata(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}
@@ -29,7 +29,7 @@ func TestMetadataUTF16(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}

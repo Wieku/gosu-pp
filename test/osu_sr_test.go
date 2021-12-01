@@ -16,7 +16,7 @@ func TestOsuSR(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}
@@ -34,7 +34,7 @@ func TestOsuPP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}
@@ -56,7 +56,7 @@ func TestOsuPPDT(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}
@@ -80,7 +80,7 @@ func TestOsuPPHR(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		t.Fatal(err)
 	}
@@ -104,7 +104,7 @@ func BenchmarkOsuSRSingle(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		b.Fatal(err)
 	}
@@ -120,7 +120,7 @@ func BenchmarkOsuSRStep(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	beatMap, err1 := beatmap.ParseBeatMapFile(osuFile)
+	beatMap, err1 := beatmap.ParseFromReader(osuFile)
 	if err1 != nil {
 		b.Fatal(err)
 	}

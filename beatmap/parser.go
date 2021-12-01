@@ -1,12 +1,13 @@
 package beatmap
 
 import (
+	"bytes"
 	"errors"
 	"github.com/wieku/gosu-pp/beatmap/objects"
 	"github.com/wieku/gosu-pp/files"
 	"github.com/wieku/gosu-pp/math/mutils"
+	"io"
 	"math"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -138,10 +139,14 @@ func getSection(line string) string {
 	return ""
 }
 
-func ParseBeatMapFile(file *os.File) (*BeatMap, error) {
+func ParseFromByte(data []byte) (*BeatMap, error) {
+	return ParseFromReader(bytes.NewReader(data))
+}
+
+func ParseFromReader(reader io.Reader) (*BeatMap, error) {
 	beatMap := NewBeatMap()
 
-	scanner := files.NewScannerBuf(file, bufferSize)
+	scanner := files.NewScannerBuf(reader, bufferSize)
 
 	var currentSection string
 
