@@ -1,4 +1,4 @@
-module github.com/wieku/gosu-pp
+module github.com/Wieku/gosu-pp
 
 go 1.17
 
