@@ -154,8 +154,7 @@ func addObjectToAttribs(o objects.IHitObject, attr *Attributes) {
 	attr.ObjectCount++
 }
 
-// CalculateSingle calculates the final difficulty attributes of a map
-func CalculateSingle(objects []objects.IHitObject, diff *difficulty.Difficulty) Attributes {
+func calculateSingle(objects []objects.IHitObject, diff *difficulty.Difficulty) (Attributes, *skills.AimSkill, *skills.SpeedSkill, *skills.Flashlight) {
 	diffObjects := preprocessing.CreateDifficultyObjects(objects, diff)
 
 	aimSkill := skills.NewAimSkill(diff, true)
@@ -183,11 +182,24 @@ func CalculateSingle(objects []objects.IHitObject, diff *difficulty.Difficulty) 
 		}
 	}
 
-	return getStars(aimSkill, aimNoSlidersSkill, speedSkill, flashlightSkill, diff, attr)
+	stars := getStars(aimSkill, aimNoSlidersSkill, speedSkill, flashlightSkill, diff, attr)
+
+	return stars, aimSkill, speedSkill, flashlightSkill
 }
 
-// CalculateStep calculates successive star ratings for every part of a beatmap
-func CalculateStep(objects []objects.IHitObject, diff *difficulty.Difficulty) []Attributes {
+// CalculateSingle calculates the final difficulty attributes of a map
+func CalculateSingle(objects []objects.IHitObject, diff *difficulty.Difficulty) Attributes {
+	stars, _, _, _ := calculateSingle(objects, diff)
+	return stars
+}
+
+// CalculateSingleWithPeaks calculates the final difficulty attributes, and strain peaks of a map
+func CalculateSingleWithPeaks(objects []objects.IHitObject, diff *difficulty.Difficulty) (Attributes, StrainPeaks) {
+	stars, aimSkill, speedSkill, flashlightSkill := calculateSingle(objects, diff)
+	return stars, getPeaks(aimSkill, speedSkill, flashlightSkill, diff)
+}
+
+func calculateStep(objects []objects.IHitObject, diff *difficulty.Difficulty) ([]Attributes, *skills.AimSkill, *skills.SpeedSkill, *skills.Flashlight) {
 	diffObjects := preprocessing.CreateDifficultyObjects(objects, diff)
 
 	aimSkill := skills.NewAimSkill(diff, true)
@@ -218,9 +230,22 @@ func CalculateStep(objects []objects.IHitObject, diff *difficulty.Difficulty) []
 		stars = append(stars, getStars(aimSkill, aimNoSlidersSkill, speedSkill, flashlightSkill, diff, attr))
 	}
 
+	return stars, aimSkill, speedSkill, flashlightSkill
+}
+
+// CalculateStep calculates successive star ratings for every part of a beatmap
+func CalculateStep(objects []objects.IHitObject, diff *difficulty.Difficulty) []Attributes {
+	stars, _, _, _ := calculateStep(objects, diff)
 	return stars
 }
 
+// CalculateStepWithPeaks calculates strain peaks and successive star ratings for every part of a beatmap
+func CalculateStepWithPeaks(objects []objects.IHitObject, diff *difficulty.Difficulty) ([]Attributes, StrainPeaks) {
+	stars, aimSkill, speedSkill, flashlightSkill := calculateStep(objects, diff)
+	return stars, getPeaks(aimSkill, speedSkill, flashlightSkill, diff)
+}
+
+// CalculateStrainPeaks calculates difficulty strain peaks of a beatmap
 func CalculateStrainPeaks(objects []objects.IHitObject, diff *difficulty.Difficulty) StrainPeaks {
 	diffObjects := preprocessing.CreateDifficultyObjects(objects, diff)
 
